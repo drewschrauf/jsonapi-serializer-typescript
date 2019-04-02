@@ -800,117 +800,241 @@ describe('fromJsonApi', () => {
       });
     });
 
-    it('should throw if not passing attributes when an attribute marked as required', () => {
-      let result: any;
-      try {
-        fromJsonApi(
-          {
-            data: {
-              type: 'post',
+    describe('required', () => {
+      it('should throw if not passing attributes when an attribute marked as required', () => {
+        let result: any;
+        try {
+          fromJsonApi(
+            {
+              data: {
+                type: 'post',
+              },
             },
-          },
-          Post,
-          { required: ['title'] },
-        );
-      } catch (error) {
-        result = convertError(error);
-      }
-      expect(result).toEqual({
-        errors: [
-          {
-            id: expect.any(String),
-            status: '400',
-            title: 'Validation Error',
-            description: "should have required property 'attributes'",
-            source: { pointer: '/data' },
-          },
-        ],
+            Post,
+            { required: ['title'] },
+          );
+        } catch (error) {
+          result = convertError(error);
+        }
+        expect(result).toEqual({
+          errors: [
+            {
+              id: expect.any(String),
+              status: '400',
+              title: 'Validation Error',
+              description: "should have required property 'attributes'",
+              source: { pointer: '/data' },
+            },
+          ],
+        });
       });
-    });
 
-    it('should throw if not passing attribute marked as required', () => {
-      let result: any;
-      try {
-        fromJsonApi(
-          {
-            data: {
-              type: 'post',
-              attributes: {},
+      it('should throw if not passing attribute marked as required', () => {
+        let result: any;
+        try {
+          fromJsonApi(
+            {
+              data: {
+                type: 'post',
+                attributes: {},
+              },
             },
-          },
-          Post,
-          { required: ['title'] },
-        );
-      } catch (error) {
-        result = convertError(error);
-      }
-      expect(result).toEqual({
-        errors: [
-          {
-            id: expect.any(String),
-            status: '400',
-            title: 'Validation Error',
-            description: "should have required property 'title'",
-            source: { pointer: '/data/attributes' },
-          },
-        ],
+            Post,
+            { required: ['title'] },
+          );
+        } catch (error) {
+          result = convertError(error);
+        }
+        expect(result).toEqual({
+          errors: [
+            {
+              id: expect.any(String),
+              status: '400',
+              title: 'Validation Error',
+              description: "should have required property 'title'",
+              source: { pointer: '/data/attributes' },
+            },
+          ],
+        });
       });
-    });
 
-    it('should throw if not passing relationships when a relationship marked as required', () => {
-      let result: any;
-      try {
-        fromJsonApi(
-          {
-            data: {
-              type: 'post',
+      it('should throw if not passing relationships when a relationship marked as required', () => {
+        let result: any;
+        try {
+          fromJsonApi(
+            {
+              data: {
+                type: 'post',
+              },
             },
-          },
-          Post,
-          { required: ['author'] },
-        );
-      } catch (error) {
-        result = convertError(error);
-      }
-      expect(result).toEqual({
-        errors: [
-          {
-            id: expect.any(String),
-            status: '400',
-            title: 'Validation Error',
-            description: "should have required property 'relationships'",
-            source: { pointer: '/data' },
-          },
-        ],
+            Post,
+            { required: ['author'] },
+          );
+        } catch (error) {
+          result = convertError(error);
+        }
+        expect(result).toEqual({
+          errors: [
+            {
+              id: expect.any(String),
+              status: '400',
+              title: 'Validation Error',
+              description: "should have required property 'relationships'",
+              source: { pointer: '/data' },
+            },
+          ],
+        });
       });
-    });
 
-    it('should throw if not passing a relationship marked as required', () => {
-      let result: any;
-      try {
-        fromJsonApi(
-          {
-            data: {
-              type: 'post',
-              relationships: {},
+      it('should throw if not passing a relationship marked as required', () => {
+        let result: any;
+        try {
+          fromJsonApi(
+            {
+              data: {
+                type: 'post',
+                relationships: {},
+              },
             },
-          },
-          Post,
-          { required: ['author'] },
-        );
-      } catch (error) {
-        result = convertError(error);
-      }
-      expect(result).toEqual({
-        errors: [
-          {
-            id: expect.any(String),
-            status: '400',
-            title: 'Validation Error',
-            description: "should have required property 'author'",
-            source: { pointer: '/data/relationships' },
-          },
-        ],
+            Post,
+            { required: ['author'] },
+          );
+        } catch (error) {
+          result = convertError(error);
+        }
+        expect(result).toEqual({
+          errors: [
+            {
+              id: expect.any(String),
+              status: '400',
+              title: 'Validation Error',
+              description: "should have required property 'author'",
+              source: { pointer: '/data/relationships' },
+            },
+          ],
+        });
+      });
+
+      it('should throw if not passing attributes when an attribute marked as required in array', () => {
+        let result: any;
+        try {
+          fromJsonApiArray(
+            {
+              data: [
+                {
+                  type: 'post',
+                },
+              ],
+            },
+            Post,
+            { required: ['title'] },
+          );
+        } catch (error) {
+          result = convertError(error);
+        }
+        expect(result).toEqual({
+          errors: [
+            {
+              id: expect.any(String),
+              status: '400',
+              title: 'Validation Error',
+              description: "should have required property 'attributes'",
+              source: { pointer: '/data/0' },
+            },
+          ],
+        });
+      });
+
+      it('should throw if not passing attribute marked as required in array', () => {
+        let result: any;
+        try {
+          fromJsonApiArray(
+            {
+              data: [
+                {
+                  type: 'post',
+                  attributes: {},
+                },
+              ],
+            },
+            Post,
+            { required: ['title'] },
+          );
+        } catch (error) {
+          result = convertError(error);
+        }
+        expect(result).toEqual({
+          errors: [
+            {
+              id: expect.any(String),
+              status: '400',
+              title: 'Validation Error',
+              description: "should have required property 'title'",
+              source: { pointer: '/data/0/attributes' },
+            },
+          ],
+        });
+      });
+
+      it('should throw if not passing relationships when a relationship marked as required in array', () => {
+        let result: any;
+        try {
+          fromJsonApiArray(
+            {
+              data: [
+                {
+                  type: 'post',
+                },
+              ],
+            },
+            Post,
+            { required: ['author'] },
+          );
+        } catch (error) {
+          result = convertError(error);
+        }
+        expect(result).toEqual({
+          errors: [
+            {
+              id: expect.any(String),
+              status: '400',
+              title: 'Validation Error',
+              description: "should have required property 'relationships'",
+              source: { pointer: '/data/0' },
+            },
+          ],
+        });
+      });
+
+      it('should throw if not passing a relationship marked as required in array', () => {
+        let result: any;
+        try {
+          fromJsonApiArray(
+            {
+              data: [
+                {
+                  type: 'post',
+                  relationships: {},
+                },
+              ],
+            },
+            Post,
+            { required: ['author'] },
+          );
+        } catch (error) {
+          result = convertError(error);
+        }
+        expect(result).toEqual({
+          errors: [
+            {
+              id: expect.any(String),
+              status: '400',
+              title: 'Validation Error',
+              description: "should have required property 'author'",
+              source: { pointer: '/data/0/relationships' },
+            },
+          ],
+        });
       });
     });
   });

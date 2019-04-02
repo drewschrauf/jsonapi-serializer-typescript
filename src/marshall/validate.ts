@@ -37,7 +37,7 @@ function pointerFromPath(path: string): string {
 export default function validateRequest<T>(
   request: unknown,
   TargetClass: ResourceConstructor<T>,
-  { array = false, required = [] }: { array?: boolean; required?: string[] } = {},
+  { array = false, required = [] }: { array?: boolean; required?: string[] },
 ): ValidationResult {
   const ajv = new Ajv({ allErrors: true });
 

@@ -63,8 +63,12 @@ function classFromJsonApi<T>(resource: SerializedResource, TargetClass: Resource
   return result;
 }
 
-export function fromJsonApiArray<T>(request: unknown, TargetClass: ResourceConstructor<T>): T[] {
-  const valid = validate(request, TargetClass, { array: true });
+export function fromJsonApiArray<T>(
+  request: unknown,
+  TargetClass: ResourceConstructor<T>,
+  { required }: { required?: string[] } = {},
+): T[] {
+  const valid = validate(request, TargetClass, { required, array: true });
 
   if (!valid.valid) {
     throw new CombinedJsonApiError({
@@ -89,7 +93,7 @@ export function fromJsonApiArray<T>(request: unknown, TargetClass: ResourceConst
 function fromJsonApi<T>(
   request: unknown,
   TargetClass: ResourceConstructor<T>,
-  { required = [] }: { required?: string[] } = {},
+  { required }: { required?: string[] } = {},
 ): T {
   const valid = validate(request, TargetClass, { required });
 
