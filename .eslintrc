@@ -1,0 +1,15 @@
+{
+  "extends": ["airbnb-base", "prettier"],
+  "plugins": ["prettier"],
+  "parser": "@typescript-eslint/parser",
+  "rules": {
+    "prettier/prettier": "error",
+    "no-undef": "off",
+    "no-unused-vars": "off",
+    "no-restricted-syntax": "off",
+    "consistent-return": "off",
+    "import/no-unresolved": "off",
+    "import/extensions": "off",
+    "lines-between-class-members": ["error", "always", { exceptAfterSingleLine: true }]
+  }
+}
