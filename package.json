@@ -10,6 +10,7 @@
     "lint": "eslint --ext ts src",
     "test": "jest",
     "build": "rm -rf lib && tsc",
+    "test:mutate": "stryker run",
     "example:helloworld": "ts-node examples/helloworld",
     "example:blog": "ts-node examples/blog"
   },
@@ -20,6 +21,10 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@stryker-mutator/core": "^1.2.0",
+    "@stryker-mutator/html-reporter": "^1.2.0",
+    "@stryker-mutator/jest-runner": "^1.2.0",
+    "@stryker-mutator/typescript": "^1.2.0",
     "@types/ajv": "^1.0.0",
     "@types/jest": "24.0.9",
     "@types/lodash": "4.14.122",

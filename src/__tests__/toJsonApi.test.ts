@@ -490,6 +490,94 @@ describe('toJsonApi', () => {
     });
   });
 
+  it('should include multiple relationships with matching IDs but non-matching types', () => {
+    @resource({ type: 'image', path: '/images' })
+    class Image {
+      @attribute()
+      public url?: string;
+
+      constructor(public id?: string, props?: { url?: string }) {
+        if (props) {
+          this.url = props.url;
+        }
+      }
+    }
+
+    @resource({ type: 'person', path: '/people' })
+    class Person {
+      @attribute()
+      public name?: string;
+
+      constructor(public id?: string, props?: { name?: string }) {
+        if (props) {
+          this.name = props.name;
+        }
+      }
+    }
+
+    @resource({ type: 'post', path: '/posts' })
+    class Post {
+      @relationship({ toOne: Person })
+      public author?: Person;
+
+      @relationship({ toOne: Image })
+      public image?: Image;
+
+      constructor(public id?: string, props?: { author?: Person; image?: Image }) {
+        if (props) {
+          this.author = props.author;
+          this.image = props.image;
+        }
+      }
+    }
+
+    const post = new Post('abc-123', {
+      author: new Person('def-456', { name: 'Drew' }),
+      image: new Image('def-456', { url: 'http://example.com/def-456' }),
+    });
+    expect(toJsonApi(post, { include: ['author', 'image'] })).toEqual({
+      data: {
+        id: 'abc-123',
+        type: 'post',
+        relationships: {
+          author: {
+            data: {
+              id: 'def-456',
+              type: 'person',
+            },
+          },
+          image: {
+            data: {
+              id: 'def-456',
+              type: 'image',
+            },
+          },
+        },
+        links: {
+          self: '/posts/abc-123',
+        },
+      },
+      included: [
+        {
+          id: 'def-456',
+          type: 'person',
+          attributes: { name: 'Drew' },
+          links: { self: '/people/def-456' },
+        },
+        {
+          id: 'def-456',
+          type: 'image',
+          attributes: {
+            url: 'http://example.com/def-456',
+          },
+          links: {
+            self: '/images/def-456',
+          },
+        },
+      ],
+    });
+  });
+
   it('should include a relationship array', () => {
     @resource({ type: 'comment', path: '/comments' })
     class Comment {

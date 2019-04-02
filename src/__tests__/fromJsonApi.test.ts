@@ -362,6 +362,26 @@ describe('fromJsonApi', () => {
       });
     });
 
+    it('should throw if array request object does not have data property', () => {
+      let result: any;
+      try {
+        fromJsonApiArray({}, Post);
+      } catch (error) {
+        result = convertError(error);
+      }
+      expect(result).toEqual({
+        errors: [
+          {
+            id: expect.any(String),
+            status: '400',
+            title: 'Validation Error',
+            description: "should have required property 'data'",
+            source: { pointer: '/' },
+          },
+        ],
+      });
+    });
+
     it('should throw if data is not an object', () => {
       let result: any;
       try {
@@ -377,6 +397,46 @@ describe('fromJsonApi', () => {
             title: 'Validation Error',
             description: 'should be object',
             source: { pointer: '/data' },
+          },
+        ],
+      });
+    });
+
+    it('should throw if array data is not an array', () => {
+      let result: any;
+      try {
+        fromJsonApiArray({ data: false }, Post);
+      } catch (error) {
+        result = convertError(error);
+      }
+      expect(result).toEqual({
+        errors: [
+          {
+            id: expect.any(String),
+            status: '400',
+            title: 'Validation Error',
+            description: 'should be array',
+            source: { pointer: '/data' },
+          },
+        ],
+      });
+    });
+
+    it('should throw if id is not a string', () => {
+      let result: any;
+      try {
+        fromJsonApi({ data: { id: 7, type: 'post' } }, Post);
+      } catch (error) {
+        result = convertError(error);
+      }
+      expect(result).toEqual({
+        errors: [
+          {
+            id: expect.any(String),
+            status: '400',
+            title: 'Validation Error',
+            description: 'should be string',
+            source: { pointer: '/data/id' },
           },
         ],
       });
@@ -1032,6 +1092,41 @@ describe('fromJsonApi', () => {
               title: 'Validation Error',
               description: "should have required property 'author'",
               source: { pointer: '/data/0/relationships' },
+            },
+          ],
+        });
+      });
+
+      it('should catch multiple errors', () => {
+        let result: any;
+        try {
+          fromJsonApi(
+            {
+              data: {
+                id: 7,
+                type: 'garbage',
+              },
+            },
+            Post,
+          );
+        } catch (error) {
+          result = convertError(error);
+        }
+        expect(result).toEqual({
+          errors: [
+            {
+              id: expect.any(String),
+              status: '400',
+              title: 'Validation Error',
+              description: 'should be string',
+              source: { pointer: '/data/id' },
+            },
+            {
+              id: expect.any(String),
+              status: '400',
+              title: 'Validation Error',
+              description: "should be 'post'",
+              source: { pointer: '/data/type' },
             },
           ],
         });
