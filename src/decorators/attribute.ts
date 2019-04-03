@@ -1,7 +1,7 @@
 import { isValidMemberName } from './validations';
 
-const attributeMetadataKey = Symbol('attribute');
-const attributeListMetadataKey = Symbol('attributelist');
+const attributeMetadataKey = Symbol();
+const attributeListMetadataKey = Symbol();
 
 type AttributeProperty<T> = Extract<keyof T, string>;
 type AttributeList<T> = AttributeProperty<T>[];

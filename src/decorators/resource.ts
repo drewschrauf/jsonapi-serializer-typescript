@@ -1,7 +1,7 @@
 import { isValidMemberName } from './validations';
 
-const resourceMetadataKey = Symbol('resource');
-const resourceIdMetadataKey = Symbol('resourceid');
+const resourceMetadataKey = Symbol();
+const resourceIdMetadataKey = Symbol();
 
 interface ResourceOptions {
   type: string;

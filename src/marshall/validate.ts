@@ -58,7 +58,6 @@ export default function validateRequest<T>(
       ...(requiredAttributes.length > 0 ? ['attributes'] : []),
       ...(requiredRelationships.length > 0 ? ['relationships'] : []),
     ],
-    additionalProperties: false,
     properties: {
       id: {
         type: 'string',
@@ -70,7 +69,6 @@ export default function validateRequest<T>(
       attributes: {
         type: 'object',
         required: requiredAttributes,
-        additionalProperties: false,
         properties: attributes.reduce((acc, attribute) => {
           const { name, schema: attributeSchema } = getAttributeInfo(target, attribute);
           return {
@@ -82,7 +80,6 @@ export default function validateRequest<T>(
       relationships: {
         type: 'object',
         required: requiredRelationships,
-        additionalProperties: false,
         properties: relationships.reduce((acc, relationship) => {
           const { name, type: relationshipType, RelatedClass } = getRelationshipInfo(
             target,
@@ -94,7 +91,6 @@ export default function validateRequest<T>(
           const relatedSchema = {
             type: 'object',
             required: ['id', 'type'],
-            additionalProperties: false,
             properties: {
               id: {
                 type: 'string',
@@ -114,7 +110,6 @@ export default function validateRequest<T>(
                   {
                     type: 'object',
                     required: ['data'],
-                    additionalProperties: false,
                     properties: {
                       data: relatedSchema,
                     },
@@ -131,7 +126,6 @@ export default function validateRequest<T>(
                 {
                   type: 'object',
                   required: ['data'],
-                  additionalProperties: false,
                   properties: {
                     data: {
                       type: 'array',
@@ -152,7 +146,6 @@ export default function validateRequest<T>(
     ? {
         type: 'object',
         required: ['data'],
-        additionalProperties: false,
         properties: {
           data: resourceSchema,
         },
@@ -160,7 +153,6 @@ export default function validateRequest<T>(
     : {
         type: 'object',
         required: ['data'],
-        additionalProperties: false,
         properties: {
           data: {
             type: 'array',

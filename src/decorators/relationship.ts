@@ -1,8 +1,8 @@
 import { ResourceConstructor } from './resource';
 import { isValidMemberName } from './validations';
 
-const relationshipMetadataKey = Symbol('relationship');
-const relationshipListMetadataKey = Symbol('relationshiplist');
+const relationshipMetadataKey = Symbol();
+const relationshipListMetadataKey = Symbol();
 
 type RelationshipProperty<T> = Extract<keyof T, string>;
 type RelationshipList<T> = RelationshipProperty<T>[];
