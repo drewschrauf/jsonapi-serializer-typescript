@@ -10,6 +10,7 @@
     "consistent-return": "off",
     "import/no-unresolved": "off",
     "import/extensions": "off",
-    "lines-between-class-members": ["error", "always", { exceptAfterSingleLine: true }]
+    "lines-between-class-members": ["error", "always", { exceptAfterSingleLine: true }],
+    "symbol-description": "off"
   }
 }
