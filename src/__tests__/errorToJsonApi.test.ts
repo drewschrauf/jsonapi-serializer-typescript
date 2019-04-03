@@ -3,7 +3,7 @@ import { errorToJsonApi, CombinedJsonApiError, JsonApiError } from '../index';
 describe('toJsonApiError', () => {
   it('should include jsonapi version if provided', () => {
     expect(
-      errorToJsonApi(new CombinedJsonApiError({ status: '400', errors: [] }), { version: '1.1' }),
+      errorToJsonApi(new CombinedJsonApiError({ status: 400, errors: [] }), { version: '1.1' }),
     ).toEqual({
       errors: [],
       jsonapi: {
@@ -14,7 +14,7 @@ describe('toJsonApiError', () => {
 
   it('should include meta information if provided', () => {
     expect(
-      errorToJsonApi(new CombinedJsonApiError({ status: '400', errors: [] }), {
+      errorToJsonApi(new CombinedJsonApiError({ status: 400, errors: [] }), {
         meta: { maintainer: 'Drew' },
       }),
     ).toEqual({
@@ -27,25 +27,25 @@ describe('toJsonApiError', () => {
 
   describe('multiple error', () => {
     it('should capture status', () => {
-      expect(new CombinedJsonApiError({ status: '400', errors: [] }).status).toBe('400');
+      expect(new CombinedJsonApiError({ status: 400, errors: [] }).status).toBe(400);
     });
 
     it('should serialize multiple errors', () => {
       expect(
         errorToJsonApi(
           new CombinedJsonApiError({
-            status: '400',
+            status: 400,
             errors: [
               new JsonApiError({
                 id: 'id1',
-                status: '100',
+                status: 100,
                 title: 'title1',
                 description: 'description1',
                 pointer: 'pointer1',
               }),
               new JsonApiError({
                 id: 'id2',
-                status: '200',
+                status: 200,
                 title: 'title2',
                 description: 'description2',
               }),
@@ -80,7 +80,7 @@ describe('toJsonApiError', () => {
         errorToJsonApi(
           new JsonApiError({
             id: 'id',
-            status: '400',
+            status: 400,
             title: 'title',
             description: 'description',
             pointer: 'pointer',
@@ -106,7 +106,7 @@ describe('toJsonApiError', () => {
         errorToJsonApi(
           new JsonApiError({
             id: 'id',
-            status: '400',
+            status: 400,
             title: 'title',
             description: 'description',
           }),

@@ -2,7 +2,7 @@ interface ValidationErrorParams {
   id: string;
   title: string;
   description: string;
-  status: string;
+  status: number;
   pointer?: string;
 }
 
@@ -10,7 +10,7 @@ export class JsonApiError extends Error {
   public id: string;
   public title: string;
   public description: string;
-  public status: string;
+  public status: number;
   public pointer?: string;
 
   constructor({ id, title, description, status, pointer }: ValidationErrorParams) {
@@ -26,10 +26,10 @@ export class JsonApiError extends Error {
 }
 
 export class CombinedJsonApiError extends Error {
-  public status: string;
+  public status: number;
   public errors: JsonApiError[];
 
-  constructor({ status, errors }: { status: string; errors: JsonApiError[] }) {
+  constructor({ status, errors }: { status: number; errors: JsonApiError[] }) {
     super('JsonApiError') /* istanbul ignore next */;
     this.status = status;
     this.errors = errors;

@@ -72,14 +72,14 @@ export function fromJsonApiArray<T>(
 
   if (!valid.valid) {
     throw new CombinedJsonApiError({
-      status: '400',
+      status: 400,
       errors: valid.errors.map(
         error =>
           new JsonApiError({
             id: uuid(),
             title: 'Validation Error',
             description: error.message,
-            status: '400',
+            status: 400,
             pointer: error.pointer,
           }),
       ),
@@ -99,14 +99,14 @@ function fromJsonApi<T>(
 
   if (!valid.valid) {
     throw new CombinedJsonApiError({
-      status: '400',
+      status: 400,
       errors: valid.errors.map(
         error =>
           new JsonApiError({
             id: uuid(),
             title: 'Validation Error',
             description: error.message,
-            status: '400',
+            status: 400,
             pointer: error.pointer,
           }),
       ),
