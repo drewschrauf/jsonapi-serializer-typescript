@@ -334,7 +334,7 @@ describe('fromJsonApi', () => {
         } catch (error) {
           result = error;
         }
-        expect(result.status).toBe('400');
+        expect(result.status).toBe(400);
       });
 
       it('should have a status 400 for bad request array', () => {
@@ -344,7 +344,7 @@ describe('fromJsonApi', () => {
         } catch (error) {
           result = error;
         }
-        expect(result.status).toBe('400');
+        expect(result.status).toBe(400);
       });
     });
 

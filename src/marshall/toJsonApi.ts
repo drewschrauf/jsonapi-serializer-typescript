@@ -223,7 +223,7 @@ export function errorToJsonApi(
   const result: ErrorSerializationResult = {
     errors: (error instanceof CombinedJsonApiError ? error.errors : [error]).map(err => ({
       id: err.id,
-      status: err.status,
+      status: err.status.toString(),
       title: err.title,
       description: err.description,
       ...(err.pointer
