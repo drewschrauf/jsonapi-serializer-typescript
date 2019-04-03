@@ -31,6 +31,7 @@
     "@types/node": "8",
     "@types/uuid": "^3.4.4",
     "@typescript-eslint/parser": "1.4.2",
+    "coveralls": "^3.0.3",
     "eslint": "5.15.1",
     "eslint-config-airbnb-base": "13.1.0",
     "eslint-config-prettier": "4.1.0",
