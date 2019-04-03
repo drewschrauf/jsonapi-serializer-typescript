@@ -1,4 +1,4 @@
 language: node_js
 node_js:
 - '10'
-script: yarn lint && yarn test --verbose --coverage --coverageReporters=text --coverageReporters=lcov && cat coverage/lcov.info | yarn bin coveralls && yarn build
+script: yarn lint && yarn test --verbose --coverage --coverageReporters=text --coverageReporters=lcov && cat coverage/lcov.info | node_modules/.bin/coveralls && yarn build
