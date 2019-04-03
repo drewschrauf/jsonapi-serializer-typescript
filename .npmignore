@@ -1,0 +1,9 @@
+/src
+/lib/__tests__
+/examples
+/coverage
+/tsconfig.json
+/stryker.conf.js
+/.eslintrc
+/.prettierrc
+/.travis.yml
