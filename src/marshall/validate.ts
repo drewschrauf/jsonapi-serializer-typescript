@@ -37,7 +37,7 @@ function pointerFromPath(path: string): string {
 export default function validateRequest<T>(
   request: unknown,
   TargetClass: ResourceConstructor<T>,
-  { array = false }: { array?: boolean } = { array: false },
+  { array = false, enforceRequired = false }: { array?: boolean; enforceRequired?: boolean },
 ): ValidationResult {
   const ajv = new Ajv({ allErrors: true });
 
@@ -46,10 +46,12 @@ export default function validateRequest<T>(
   const attributes = getAttributeList(target);
   const relationships = getRelationshipList(target);
 
-  const requiredAttributes = attributes.filter(attribute => required.indexOf(attribute) !== -1);
-  const requiredRelationships = relationships.filter(
-    relationship => required.indexOf(relationship) !== -1,
-  );
+  const requiredAttributes = enforceRequired
+    ? attributes.filter(attribute => getAttributeInfo(target, attribute).required)
+    : [];
+  const requiredRelationships = enforceRequired
+    ? relationships.filter(relationship => getRelationshipInfo(target, relationship).required)
+    : [];
 
   const resourceSchema = {
     type: 'object',

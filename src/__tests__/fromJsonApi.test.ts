@@ -966,6 +966,13 @@ describe('fromJsonApi', () => {
 
     describe('required', () => {
       it('should throw if not passing attributes when an attribute marked as required', () => {
+        @resource({ type: 'post', path: '/posts' })
+        // eslint-disable-next-line no-shadow
+        class Post {
+          @attribute({ required: true })
+          title?: string;
+        }
+
         let result: any;
         try {
           fromJsonApi(
@@ -975,7 +982,7 @@ describe('fromJsonApi', () => {
               },
             },
             Post,
-            { required: ['title'] },
+            { enforceRequired: true },
           );
         } catch (error) {
           result = convertError(error);
@@ -994,6 +1001,13 @@ describe('fromJsonApi', () => {
       });
 
       it('should throw if not passing attribute marked as required', () => {
+        @resource({ type: 'post', path: '/posts' })
+        // eslint-disable-next-line no-shadow
+        class Post {
+          @attribute({ required: true })
+          title?: string;
+        }
+
         let result: any;
         try {
           fromJsonApi(
@@ -1004,7 +1018,7 @@ describe('fromJsonApi', () => {
               },
             },
             Post,
-            { required: ['title'] },
+            { enforceRequired: true },
           );
         } catch (error) {
           result = convertError(error);
@@ -1023,6 +1037,13 @@ describe('fromJsonApi', () => {
       });
 
       it('should throw if not passing relationships when a relationship marked as required', () => {
+        @resource({ type: 'post', path: '/posts' })
+        // eslint-disable-next-line no-shadow
+        class Post {
+          @relationship({ toOne: Person, required: true })
+          author?: Person;
+        }
+
         let result: any;
         try {
           fromJsonApi(
@@ -1032,7 +1053,7 @@ describe('fromJsonApi', () => {
               },
             },
             Post,
-            { required: ['author'] },
+            { enforceRequired: true },
           );
         } catch (error) {
           result = convertError(error);
@@ -1051,6 +1072,13 @@ describe('fromJsonApi', () => {
       });
 
       it('should throw if not passing a relationship marked as required', () => {
+        @resource({ type: 'post', path: '/posts' })
+        // eslint-disable-next-line no-shadow
+        class Post {
+          @relationship({ toOne: Person, required: true })
+          author?: Person;
+        }
+
         let result: any;
         try {
           fromJsonApi(
@@ -1061,7 +1089,7 @@ describe('fromJsonApi', () => {
               },
             },
             Post,
-            { required: ['author'] },
+            { enforceRequired: true },
           );
         } catch (error) {
           result = convertError(error);
@@ -1080,6 +1108,13 @@ describe('fromJsonApi', () => {
       });
 
       it('should throw if not passing attributes when an attribute marked as required in array', () => {
+        @resource({ type: 'post', path: '/posts' })
+        // eslint-disable-next-line no-shadow
+        class Post {
+          @attribute({ required: true })
+          title?: string;
+        }
+
         let result: any;
         try {
           fromJsonApiArray(
@@ -1091,7 +1126,7 @@ describe('fromJsonApi', () => {
               ],
             },
             Post,
-            { required: ['title'] },
+            { enforceRequired: true },
           );
         } catch (error) {
           result = convertError(error);
@@ -1110,6 +1145,13 @@ describe('fromJsonApi', () => {
       });
 
       it('should throw if not passing attribute marked as required in array', () => {
+        @resource({ type: 'post', path: '/posts' })
+        // eslint-disable-next-line no-shadow
+        class Post {
+          @attribute({ required: true })
+          title?: string;
+        }
+
         let result: any;
         try {
           fromJsonApiArray(
@@ -1122,7 +1164,7 @@ describe('fromJsonApi', () => {
               ],
             },
             Post,
-            { required: ['title'] },
+            { enforceRequired: true },
           );
         } catch (error) {
           result = convertError(error);
@@ -1141,6 +1183,13 @@ describe('fromJsonApi', () => {
       });
 
       it('should throw if not passing relationships when a relationship marked as required in array', () => {
+        @resource({ type: 'post', path: '/posts' })
+        // eslint-disable-next-line no-shadow
+        class Post {
+          @relationship({ toOne: Person, required: true })
+          author?: Person;
+        }
+
         let result: any;
         try {
           fromJsonApiArray(
@@ -1152,7 +1201,7 @@ describe('fromJsonApi', () => {
               ],
             },
             Post,
-            { required: ['author'] },
+            { enforceRequired: true },
           );
         } catch (error) {
           result = convertError(error);
@@ -1171,6 +1220,13 @@ describe('fromJsonApi', () => {
       });
 
       it('should throw if not passing a relationship marked as required in array', () => {
+        @resource({ type: 'post', path: '/posts' })
+        // eslint-disable-next-line no-shadow
+        class Post {
+          @relationship({ toOne: Person, required: true })
+          author?: Person;
+        }
+
         let result: any;
         try {
           fromJsonApiArray(
@@ -1183,7 +1239,7 @@ describe('fromJsonApi', () => {
               ],
             },
             Post,
-            { required: ['author'] },
+            { enforceRequired: true },
           );
         } catch (error) {
           result = convertError(error);

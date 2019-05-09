@@ -63,8 +63,12 @@ function classFromJsonApi<T>(resource: SerializedResource, TargetClass: Resource
   return result;
 }
 
-export function fromJsonApiArray<T>(request: unknown, TargetClass: ResourceConstructor<T>): T[] {
-  const valid = validate(request, TargetClass, { array: true });
+export function fromJsonApiArray<T>(
+  request: unknown,
+  TargetClass: ResourceConstructor<T>,
+  { enforceRequired = false }: { enforceRequired: boolean } = { enforceRequired: false },
+): T[] {
+  const valid = validate(request, TargetClass, { array: true, enforceRequired });
 
   if (!valid.valid) {
     throw new CombinedJsonApiError({
@@ -86,8 +90,12 @@ export function fromJsonApiArray<T>(request: unknown, TargetClass: ResourceConst
   return resources.map(resource => classFromJsonApi(resource, TargetClass));
 }
 
-function fromJsonApi<T>(request: unknown, TargetClass: ResourceConstructor<T>): T {
-  const valid = validate(request, TargetClass);
+function fromJsonApi<T>(
+  request: unknown,
+  TargetClass: ResourceConstructor<T>,
+  { enforceRequired = false }: { enforceRequired: boolean } = { enforceRequired: false },
+): T {
+  const valid = validate(request, TargetClass, { enforceRequired });
 
   if (!valid.valid) {
     throw new CombinedJsonApiError({
