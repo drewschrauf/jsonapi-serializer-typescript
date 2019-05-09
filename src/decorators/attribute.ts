@@ -9,11 +9,13 @@ type AttributeList<T> = AttributeProperty<T>[];
 interface AttributeOptions {
   as?: string;
   schema?: object;
+  required?: boolean;
 }
 
 interface AttributeInfo {
   name: string;
   schema?: object;
+  required: boolean;
 }
 
 export default function attribute(options: AttributeOptions = {}) {
@@ -36,6 +38,7 @@ export function getAttributeInfo<T>(target: T, property: AttributeProperty<T>): 
   return {
     name: info.as || property,
     schema: info.schema,
+    required: info.required || false,
   };
 }
 

@@ -11,6 +11,7 @@ interface BaseRelationshipOptions {
   selfLink?: boolean;
   relatedLink?: boolean;
   as?: string;
+  required?: boolean;
 }
 
 type Constructor = ResourceConstructor<any>;
@@ -37,6 +38,7 @@ interface RelationshipMetadata {
   as?: string;
   RelatedClass: Constructor;
   type: RelationshipType;
+  required?: boolean;
 }
 
 interface RelationshipInfo {
@@ -45,6 +47,7 @@ interface RelationshipInfo {
   name: string;
   selfLink: boolean;
   relatedLink: boolean;
+  required: boolean;
 }
 
 export enum RelationshipType {
@@ -93,6 +96,7 @@ export function getRelationshipInfo<T>(
     name: info.as || property,
     selfLink: info.selfLink || false,
     relatedLink: info.relatedLink || false,
+    required: info.required || false,
   };
 }
 
