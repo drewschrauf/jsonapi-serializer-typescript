@@ -1000,6 +1000,47 @@ describe('fromJsonApi', () => {
         });
       });
 
+      it('should not throw if not passing attributes when an attribute is marked as required but enforceRequired is false', () => {
+        @resource({ type: 'post', path: '/posts' })
+        // eslint-disable-next-line no-shadow
+        class Post {
+          @attribute({ required: true })
+          title?: string;
+        }
+
+        expect(() => {
+          fromJsonApi(
+            {
+              data: {
+                type: 'post',
+              },
+            },
+            Post,
+            { enforceRequired: false },
+          );
+        }).not.toThrow();
+      });
+
+      it('should not throw if not passing attributes when an attribute is marked as required but enforceRequired not provided', () => {
+        @resource({ type: 'post', path: '/posts' })
+        // eslint-disable-next-line no-shadow
+        class Post {
+          @attribute({ required: true })
+          title?: string;
+        }
+
+        expect(() => {
+          fromJsonApi(
+            {
+              data: {
+                type: 'post',
+              },
+            },
+            Post,
+          );
+        }).not.toThrow();
+      });
+
       it('should throw if not passing attribute marked as required', () => {
         @resource({ type: 'post', path: '/posts' })
         // eslint-disable-next-line no-shadow
@@ -1069,6 +1110,47 @@ describe('fromJsonApi', () => {
             },
           ],
         });
+      });
+
+      it('should not throw if not passing relationships when a relationship marked as required but enforceRequired is false', () => {
+        @resource({ type: 'post', path: '/posts' })
+        // eslint-disable-next-line no-shadow
+        class Post {
+          @relationship({ toOne: Person, required: true })
+          author?: Person;
+        }
+
+        expect(() => {
+          fromJsonApi(
+            {
+              data: {
+                type: 'post',
+              },
+            },
+            Post,
+            { enforceRequired: false },
+          );
+        }).not.toThrow();
+      });
+
+      it('should not throw if not passing relationships when a relationship marked as required but enforceRequired is not provided', () => {
+        @resource({ type: 'post', path: '/posts' })
+        // eslint-disable-next-line no-shadow
+        class Post {
+          @relationship({ toOne: Person, required: true })
+          author?: Person;
+        }
+
+        expect(() => {
+          fromJsonApi(
+            {
+              data: {
+                type: 'post',
+              },
+            },
+            Post,
+          );
+        }).not.toThrow();
       });
 
       it('should throw if not passing a relationship marked as required', () => {

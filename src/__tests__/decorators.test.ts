@@ -21,6 +21,17 @@ describe('decorators', () => {
         new Bad();
       }).toThrow('resourceId() must be used on a string member');
     });
+
+    it('should not throw if resourceId is an optional string', () => {
+      expect(() => {
+        @resource({ type: 'good', path: '/good' })
+        class Good {
+          @resourceId()
+          public id?: string;
+        }
+        new Good();
+      }).not.toThrow();
+    });
   });
 
   describe('attribute', () => {
