@@ -11,7 +11,7 @@ interface ValidationError {
   message: string;
   pointer: string;
 }
-type ValidationResult = { valid: true } | { valid: false; errors: ValidationError[] };
+export type ValidationResult = { valid: true } | { valid: false; errors: ValidationError[] };
 
 function messageFromError(error: ErrorObject): string {
   if (error.keyword === 'enum') {

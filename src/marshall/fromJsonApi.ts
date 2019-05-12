@@ -7,7 +7,7 @@ import {
   RelationshipType,
 } from '../decorators/relationship';
 import { JsonApiError, CombinedJsonApiError } from '../errors';
-import validate from './validate';
+import validate, { ValidationResult } from './validate';
 
 interface SerializedRelationship {
   id: string;
@@ -63,17 +63,11 @@ function classFromJsonApi<T>(resource: SerializedResource, TargetClass: Resource
   return result;
 }
 
-export function fromJsonApiArray<T>(
-  request: unknown,
-  TargetClass: ResourceConstructor<T>,
-  { enforceRequired = false }: { enforceRequired: boolean } = { enforceRequired: false },
-): T[] {
-  const valid = validate(request, TargetClass, { array: true, enforceRequired });
-
-  if (!valid.valid) {
+function checkValidationErrors(validationResult: ValidationResult) {
+  if (!validationResult.valid) {
     throw new CombinedJsonApiError({
       status: 400,
-      errors: valid.errors.map(
+      errors: validationResult.errors.map(
         error =>
           new JsonApiError({
             id: uuid(),
@@ -85,6 +79,15 @@ export function fromJsonApiArray<T>(
       ),
     });
   }
+}
+
+export function fromJsonApiArray<T>(
+  request: unknown,
+  TargetClass: ResourceConstructor<T>,
+  { enforceRequired = false }: { enforceRequired: boolean } = { enforceRequired: false },
+): T[] {
+  const validationResult = validate(request, TargetClass, { array: true, enforceRequired });
+  checkValidationErrors(validationResult);
 
   const { data: resources } = request as { data: SerializedResource[] };
   return resources.map(resource => classFromJsonApi(resource, TargetClass));
@@ -95,23 +98,8 @@ function fromJsonApi<T>(
   TargetClass: ResourceConstructor<T>,
   { enforceRequired = false }: { enforceRequired: boolean } = { enforceRequired: false },
 ): T {
-  const valid = validate(request, TargetClass, { enforceRequired });
-
-  if (!valid.valid) {
-    throw new CombinedJsonApiError({
-      status: 400,
-      errors: valid.errors.map(
-        error =>
-          new JsonApiError({
-            id: uuid(),
-            title: 'Validation Error',
-            description: error.message,
-            status: 400,
-            pointer: error.pointer,
-          }),
-      ),
-    });
-  }
+  const validationResult = validate(request, TargetClass, { enforceRequired });
+  checkValidationErrors(validationResult);
 
   const { data: resource } = request as { data: SerializedResource };
   return classFromJsonApi(resource, TargetClass);
