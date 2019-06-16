@@ -6,12 +6,12 @@ class Person {
   public userId?: string;
 
   @attribute()
-  public name?: string;
+  public name?: string | null;
 
   @attribute()
-  public bio?: string;
+  public bio?: string | null;
 
-  constructor(userId?: string, props?: { name?: string; bio?: string }) {
+  constructor(userId?: string, props?: Person) {
     this.userId = userId;
     if (props) {
       this.name = props.name;
@@ -23,12 +23,12 @@ class Person {
 @resource({ type: 'comment', path: '/comments' })
 class Comment {
   @relationship({ toOne: Person })
-  public author?: Person;
+  public author?: Person | null;
 
   @attribute()
-  public content?: string;
+  public content?: string | null;
 
-  constructor(public id?: string, props?: { author?: Person; content?: string }) {
+  constructor(public id?: string, props?: Comment) {
     if (props) {
       this.author = props.author;
       this.content = props.content;
@@ -39,18 +39,15 @@ class Comment {
 @resource({ type: 'post', path: '/posts' })
 class Post {
   @attribute()
-  public title?: string;
+  public title?: string | null;
 
   @relationship({ toOne: Person })
-  public author?: Person;
+  public author?: Person | null;
 
   @relationship({ toMany: Comment, selfLink: true, relatedLink: true })
-  public comments?: Comment[];
+  public comments?: Comment[] | null;
 
-  constructor(
-    public id?: string,
-    props?: { title?: string; author?: Person; comments?: Comment[] },
-  ) {
+  constructor(public id?: string, props?: Post) {
     if (props) {
       this.title = props.title;
       this.author = props.author;
